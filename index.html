@@ -10,6 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
       rel="stylesheet"
     />
+
     <link rel="stylesheet" href="css/normalize.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" href="images/favicon.ico" />
@@ -22,21 +23,20 @@
       <h1>Bibliothèque</h1>
     </header>
     <main>
-      <a href="#" id="addBookButton">Ajouter un livre</a>
+      <div id="addBookButtonContainer">
+        <a href="#" id="addBookButton">+ Ajouter un livre</a>
+      </div>
       <section id="libraryContainer"></section>
-      <form id="addBookForm">
-        <h2>Ajouter un nouveau livre</h2>
-        <input type="text" placeholder="Titre" id="titleInput" />
-        <input type="text" placeholder="Auteur(trice)" id="authorInput" />
-        <input
-          type="text"
-          placeholder="Nombre de pages"
-          id="NumberOfPageInput"
-        />
-        <label for="hasBeenReadInput">Avez-vous déjà lu ce livre ?</label>
-        <input type="checkbox" id="hasBeenReadInput" />
-        <button type="button" id="submitBookButton">Ajouter</button>
-      </form>
     </main>
+    <form id="addBookForm" class="hidden">
+      <h2>Ajouter un livre</h2>
+      <input type="text" placeholder="Titre" id="titleInput" />
+      <input type="text" placeholder="Auteur(trice)" id="authorInput" />
+      <input type="text" placeholder="Nombre de pages" id="NumberOfPageInput" />
+      <label for="hasBeenReadInput">Avez-vous déjà lu ce livre ?</label>
+      <input type="checkbox" id="hasBeenReadInput" />
+      <p id="submitBookButton">Ajouter</p>
+    </form>
+    <div class="overlay hidden"></div>
   </body>
 </html>

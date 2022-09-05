@@ -3,7 +3,8 @@ let myLibrary = [];
 const libraryContainer = document.querySelector("#libraryContainer");
 const addBookButton = document.querySelector("#addBookButton");
 const submitBookButton = document.querySelector("#submitBookButton");
-
+const addBookForm = document.querySelector("#addBookForm");
+const overlay = document.querySelector(".overlay");
 // Display Functions
 function displayLibrary() {
   libraryContainer.innerHTML = "";
@@ -54,6 +55,14 @@ function displayCard(item) {
     displayLibrary();
   });
 }
+function revealCreateBookForm() {
+  addBookForm.classList.remove("hidden");
+  overlay.classList.remove("hidden");
+}
+function hideCreateBookForm() {
+  addBookForm.classList.add("hidden");
+  overlay.classList.add("hidden");
+}
 // Books Functions
 function Book(title, author, numberOfPages, hasBeenRead) {
   this.title = title;
@@ -85,21 +94,28 @@ function toggleHasBeenRead(index) {
   }
 }
 
-const HarryPotter = new Book("Harry Potter", "J.K Rowling", 300, false);
+const HarryPotter = new Book("Harry Potter", "J.K Rowling", 300, true);
 const LeSeigneurDesAnneaux = new Book(
   "Le Seigneur des Anneaux",
   "J.R.R Tolkien",
   450,
   true
 );
-
+const LaRoueDuTemps = new Book("La Roue du Temps", "Robert Jordan", 120, false);
 addBookToLibrary(HarryPotter);
 addBookToLibrary(LeSeigneurDesAnneaux);
-
+addBookToLibrary(LaRoueDuTemps);
 displayLibrary();
 
 // Event Listeners
 submitBookButton.addEventListener("click", () => {
   addBookToLibrary(createBook());
   displayLibrary();
+  hideCreateBookForm();
+});
+addBookButton.addEventListener("click", () => {
+  revealCreateBookForm();
+});
+overlay.addEventListener("click", () => {
+  hideCreateBookForm();
 });
