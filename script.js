@@ -2,40 +2,87 @@
 let myLibrary = [];
 const libraryContainer = document.querySelector("#libraryContainer");
 const addBookButton = document.querySelector("#addBookButton");
+const submitBookButton = document.querySelector("#submitBookButton");
+
 // Display Functions
 function displayLibrary() {
+  libraryContainer.innerHTML = "";
   myLibrary.forEach(function (item) {
-    let bookCard = document.createElement("div");
-    bookCard.classList.add("bookCard");
-    libraryContainer.appendChild(bookCard);
-    let bookTitleContainer = document.createElement("p");
-    bookTitleContainer.textContent = item.title;
-    bookCard.appendChild(bookTitleContainer);
-    let bookAuthorContainer = document.createElement("p");
-    bookAuthorContainer.textContent = item.author;
-    bookCard.appendChild(bookAuthorContainer);
-    let bookPagesContainer = document.createElement("p");
-    bookPagesContainer.textContent = `${item.numberOfPages} pages`;
-    bookCard.appendChild(bookPagesContainer);
-    let bookReadContainer = document.createElement("p");
-    if (item.hasBeenRead === true) {
-      bookReadContainer.textContent = "Lu";
-    } else {
-      bookReadContainer.textContent = "Non lu";
-    }
-    bookCard.appendChild(bookReadContainer);
+    displayCard(item);
   });
 }
-
-// Book Functions
+function displayCard(item) {
+  let bookCard = document.createElement("div");
+  bookCard.classList.add("bookCard");
+  bookCard.dataset.index = myLibrary.indexOf(item);
+  libraryContainer.appendChild(bookCard);
+  let bookTitleContainer = document.createElement("p");
+  bookTitleContainer.classList.add("bookTitleContainer");
+  bookTitleContainer.textContent = item.title;
+  bookCard.appendChild(bookTitleContainer);
+  let bookAuthorContainer = document.createElement("p");
+  bookAuthorContainer.classList.add("bookAuthorContainer");
+  bookAuthorContainer.textContent = item.author;
+  bookCard.appendChild(bookAuthorContainer);
+  let bookPagesContainer = document.createElement("p");
+  bookPagesContainer.classList.add("bookPagesContainer");
+  bookPagesContainer.textContent = `${item.numberOfPages} pages`;
+  bookCard.appendChild(bookPagesContainer);
+  let bookReadContainer = document.createElement("p");
+  bookReadContainer.classList.add("bookReadContainer");
+  if (item.hasBeenRead === true) {
+    bookReadContainer.textContent = "Lu";
+    bookReadContainer.classList.add("green");
+    bookReadContainer.classList.remove("red");
+  } else {
+    bookReadContainer.textContent = "Non lu";
+    bookReadContainer.classList.add("red");
+    bookReadContainer.classList.remove("green");
+  }
+  bookReadContainer.addEventListener("click", () => {
+    toggleHasBeenRead(bookCard.dataset.index);
+    displayLibrary();
+  });
+  bookCard.appendChild(bookReadContainer);
+  let deleteBookButton = document.createElement("p");
+  deleteBookButton.dataset.index = myLibrary.indexOf(item);
+  deleteBookButton.classList.add("deleteButton");
+  deleteBookButton.textContent = "Supprimer";
+  bookCard.appendChild(deleteBookButton);
+  deleteBookButton.addEventListener("click", () => {
+    deleteBookFromLibrary(bookCard.dataset.index);
+    displayLibrary();
+  });
+}
+// Books Functions
 function Book(title, author, numberOfPages, hasBeenRead) {
   this.title = title;
   this.author = author;
   this.numberOfPages = numberOfPages;
   this.hasBeenRead = hasBeenRead;
 }
+function createBook() {
+  let title = document.getElementById("titleInput").value;
+  let author = document.getElementById("authorInput").value;
+  let numberOfPages = document.getElementById("NumberOfPageInput").value;
+  let hasBeenRead = document.getElementById("hasBeenReadInput").checked;
+  let newBook = new Book(title, author, numberOfPages, hasBeenRead);
+  return newBook;
+}
+
 function addBookToLibrary(book) {
   myLibrary.push(book);
+}
+function deleteBookFromLibrary(index) {
+  myLibrary.splice(index, 1);
+}
+
+function toggleHasBeenRead(index) {
+  if (myLibrary[index].hasBeenRead === true) {
+    myLibrary[index].hasBeenRead = false;
+  } else {
+    myLibrary[index].hasBeenRead = true;
+  }
 }
 
 const HarryPotter = new Book("Harry Potter", "J.K Rowling", 300, false);
@@ -45,13 +92,14 @@ const LeSeigneurDesAnneaux = new Book(
   450,
   true
 );
-const livre3 = new Book("Harry Potter", "J.K Rowling", 300, false);
-const livre4 = new Book("Harry Potter", "J.K Rowling", 300, false);
-const livre5 = new Book("Harry Potter", "J.K Rowling", 300, false);
+
 addBookToLibrary(HarryPotter);
 addBookToLibrary(LeSeigneurDesAnneaux);
-addBookToLibrary(livre3);
-addBookToLibrary(livre4);
-addBookToLibrary(livre5);
+
 displayLibrary();
-console.log(myLibrary);
+
+// Event Listeners
+submitBookButton.addEventListener("click", () => {
+  addBookToLibrary(createBook());
+  displayLibrary();
+});

@@ -24,6 +24,19 @@
     <main>
       <a href="#" id="addBookButton">Ajouter un livre</a>
       <section id="libraryContainer"></section>
+      <form id="addBookForm">
+        <h2>Ajouter un nouveau livre</h2>
+        <input type="text" placeholder="Titre" id="titleInput" />
+        <input type="text" placeholder="Auteur(trice)" id="authorInput" />
+        <input
+          type="text"
+          placeholder="Nombre de pages"
+          id="NumberOfPageInput"
+        />
+        <label for="hasBeenReadInput">Avez-vous déjà lu ce livre ?</label>
+        <input type="checkbox" id="hasBeenReadInput" />
+        <button type="button" id="submitBookButton">Ajouter</button>
+      </form>
     </main>
   </body>
 </html>
