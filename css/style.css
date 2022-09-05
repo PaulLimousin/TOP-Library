@@ -18,3 +18,14 @@ header img {
 main {
   background-color: #f0eef1;
 }
+#libraryContainer {
+  display: flex;
+  gap: 10px;
+  padding: 20px;
+}
+.bookCard {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
