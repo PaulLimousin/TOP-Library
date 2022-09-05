@@ -1,0 +1,20 @@
+/* ****************** GLOBAL ****************** */
+h1,
+h2,
+p {
+  font-family: "Poppins", sans-serif;
+}
+
+/* ****************** HEADER ****************** */
+header {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+header img {
+  width: 75px;
+}
+/* ****************** MAIN ****************** */
+main {
+  background-color: #f0eef1;
+}
