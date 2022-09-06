@@ -1,10 +1,17 @@
-// Variables et Constantes
-let myLibrary = [];
-const libraryContainer = document.querySelector("#libraryContainer");
+// Variables and Constants
 const addBookButton = document.querySelector("#addBookButton");
-const submitBookButton = document.querySelector("#submitBookButton");
+const libraryContainer = document.querySelector("#libraryContainer");
 const addBookForm = document.querySelector("#addBookForm");
+const titleInput = document.querySelector("#titleInput");
+const authorInput = document.querySelector("#authorInput");
+const hasBeenReadInput = document.querySelector("#hasBeenReadInput");
+const NumberOfPageInput = document.querySelector("#NumberOfPageInput");
+const submitBookButton = document.querySelector("#submitBookButton");
+const duplicateFindMessage = document.querySelector(".duplicateFindMessage");
+const errorMessageForm = document.querySelector(".errorMessageForm");
 const overlay = document.querySelector(".overlay");
+let myLibrary = [];
+
 // Display Functions
 function displayLibrary() {
   libraryContainer.innerHTML = "";
@@ -12,6 +19,7 @@ function displayLibrary() {
     displayCard(item);
   });
 }
+
 function displayCard(item) {
   let bookCard = document.createElement("div");
   bookCard.classList.add("bookCard");
@@ -55,21 +63,29 @@ function displayCard(item) {
     displayLibrary();
   });
 }
+
 function revealCreateBookForm() {
   addBookForm.classList.remove("hidden");
   overlay.classList.remove("hidden");
 }
+
 function hideCreateBookForm() {
   addBookForm.classList.add("hidden");
   overlay.classList.add("hidden");
 }
-// Books Functions
+
+// Library Functions
 function Book(title, author, numberOfPages, hasBeenRead) {
   this.title = title;
   this.author = author;
   this.numberOfPages = numberOfPages;
   this.hasBeenRead = hasBeenRead;
 }
+
+Book.prototype.addBookToLibrary = function () {
+  myLibrary.push(this);
+};
+
 function createBook() {
   let title = document.getElementById("titleInput").value;
   let author = document.getElementById("authorInput").value;
@@ -79,11 +95,12 @@ function createBook() {
   return newBook;
 }
 
-function addBookToLibrary(book) {
-  myLibrary.push(book);
-}
 function deleteBookFromLibrary(index) {
   myLibrary.splice(index, 1);
+}
+
+function checkForDuplicate(book) {
+  return book.title === titleInput.value;
 }
 
 function toggleHasBeenRead(index) {
@@ -94,28 +111,51 @@ function toggleHasBeenRead(index) {
   }
 }
 
-const HarryPotter = new Book("Harry Potter", "J.K Rowling", 300, true);
+function refreshAddBookForm() {
+  titleInput.value = "";
+  authorInput.value = "";
+  NumberOfPageInput.value = "";
+  hasBeenReadInput.checked = false;
+}
+
+// Initiate library
 const LeSeigneurDesAnneaux = new Book(
   "Le Seigneur des Anneaux",
   "J.R.R Tolkien",
-  450,
+  528,
   true
 );
-const LaRoueDuTemps = new Book("La Roue du Temps", "Robert Jordan", 120, false);
-addBookToLibrary(HarryPotter);
-addBookToLibrary(LeSeigneurDesAnneaux);
-addBookToLibrary(LaRoueDuTemps);
+const LaRoueDuTemps = new Book("La Roue du Temps", "Robert Jordan", 490, false);
+LeSeigneurDesAnneaux.addBookToLibrary();
+LaRoueDuTemps.addBookToLibrary();
+
 displayLibrary();
 
 // Event Listeners
-submitBookButton.addEventListener("click", () => {
-  addBookToLibrary(createBook());
-  displayLibrary();
-  hideCreateBookForm();
-});
 addBookButton.addEventListener("click", () => {
   revealCreateBookForm();
 });
+submitBookButton.addEventListener("click", () => {
+  if (
+    titleInput.value === "" ||
+    authorInput.value === "" ||
+    NumberOfPageInput.value === ""
+  ) {
+    errorMessageForm.classList.remove("hidden");
+  } else if (myLibrary.find(checkForDuplicate) != undefined) {
+    duplicateFindMessage.classList.remove("hidden");
+  } else {
+    createBook().addBookToLibrary();
+    displayLibrary();
+    hideCreateBookForm();
+    refreshAddBookForm();
+    duplicateFindMessage.classList.add("hidden");
+    errorMessageForm.classList.add("hidden");
+  }
+});
 overlay.addEventListener("click", () => {
   hideCreateBookForm();
+  refreshAddBookForm();
+  duplicateFindMessage.classList.add("hidden");
+  errorMessageForm.classList.add("hidden");
 });

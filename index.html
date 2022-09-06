@@ -10,7 +10,6 @@
       href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
       rel="stylesheet"
     />
-
     <link rel="stylesheet" href="css/normalize.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" href="images/favicon.ico" />
@@ -18,25 +17,40 @@
     <title>Bibliothèque</title>
   </head>
   <body>
+    <!-- ******************** HEADER ********************  -->
     <header>
       <img src="images/icon.png" alt="Icône du site" />
       <h1>Bibliothèque</h1>
     </header>
+    <!-- ******************** MAIN ********************  -->
     <main>
       <div id="addBookButtonContainer">
         <a href="#" id="addBookButton">+ Ajouter un livre</a>
       </div>
+      <!-- ********* LIBRARY CONTAINER *********  -->
       <section id="libraryContainer"></section>
     </main>
+    <!-- ********* FORM CONTAINER *********  -->
     <form id="addBookForm" class="hidden">
       <h2>Ajouter un livre</h2>
       <input type="text" placeholder="Titre" id="titleInput" />
+      <p class="duplicateFindMessage hidden">
+        Ce livre existe déjà dans votre bibliothèque
+      </p>
       <input type="text" placeholder="Auteur(trice)" id="authorInput" />
-      <input type="text" placeholder="Nombre de pages" id="NumberOfPageInput" />
-      <label for="hasBeenReadInput">Avez-vous déjà lu ce livre ?</label>
-      <input type="checkbox" id="hasBeenReadInput" />
+      <input
+        type="number"
+        placeholder="Nombre de pages"
+        id="NumberOfPageInput"
+      />
+      <div class="checkboxContainer">
+        <label for="hasBeenReadInput">Avez-vous déjà lu ce livre ?</label>
+        <input type="checkbox" id="hasBeenReadInput" />
+      </div>
       <p id="submitBookButton">Ajouter</p>
+      <p class="errorMessageForm hidden">Veuillez remplir tous les champs !</p>
     </form>
+    <!-- ******************** OVERLAY ********************  -->
     <div class="overlay hidden"></div>
   </body>
 </html>
